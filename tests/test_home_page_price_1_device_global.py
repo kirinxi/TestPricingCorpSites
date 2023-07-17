@@ -52,3 +52,4 @@ class TestPriceMainAndHomeGlobal:
 
         assert main_page_price == premium_home_page_price
         print(main_page_price)
+

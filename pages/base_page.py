@@ -53,3 +53,5 @@ class BasePage:
     @allure.step('Accept all cookies content')
     def accept_cookie_content(self, locator):
         self.driver.find_element(locator).click()
+
+
