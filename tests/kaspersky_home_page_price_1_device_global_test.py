@@ -1,8 +1,8 @@
 import allure
 
 from data.url import KL_Urls_Global as Url
-from pages.main_page import MainPage
-from pages.home_security_page import HomeSecurityPage
+from pages.kaspersky_main_page import MainPage
+from pages.kaspersky_home_security_page import HomeSecurityPage
 
 
 @allure.suite('Test prices between Main and Home pages on Global')
