@@ -11,7 +11,7 @@ class BasePage:
         self.driver = driver
         self.url = url
 
-    @allure.step('Open a browser')
+    @allure.step('Open a browser page')
     def open(self):
         self.driver.get(self.url)
 

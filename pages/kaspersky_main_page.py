@@ -2,7 +2,6 @@ import allure
 
 from pages.kaspersky_base_page import BasePage
 from locators.kaspersky_main_page_locators import MainPageLocators as Locators
-from locators.kaspersky_main_page_locators import StandardMainPageLocators as LocatorsStandard
 
 
 class MainPage(BasePage):
