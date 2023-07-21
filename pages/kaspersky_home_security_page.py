@@ -1,12 +1,9 @@
-import time
-
 import allure
 
 from pages.kaspersky_base_page import BasePage
 from locators.kaspersky_home_security_page_locators import HomeSecurityPageTopTablePrices as Locators
 from locators.kaspersky_base_page_locators import StandardMainPageLocators as Locators2
-from locators.kaspersky_base_page_locators import CookieContent as Cookies
-from selenium.common.exceptions import UnexpectedAlertPresentException
+
 
 class HomeSecurityPage(BasePage):
 
