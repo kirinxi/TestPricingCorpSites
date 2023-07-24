@@ -60,4 +60,3 @@ class BasePage:
         action.move_to_element(element)
         action.perform()
 
-    def get_product

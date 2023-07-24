@@ -1,0 +1,18 @@
+
+{
+  "standard_1d1y": "$37.99",
+  "standard_1d1y_renewal": "$47.99",
+  "standard_3d1y": "$44.99",
+  "standard_3d1y_renewal": "$56.99",
+  "standard_5d1y": "$51.99",
+  "standard_5d1y_renewal": "$65.99",
+  "standard_1d2y": "$75.99",
+  "standard_1d2y_renewal": "$95.98",
+  "standard_1d2y_renewal_disclaimer": "$47.99",
+  "standard_3d2y": "$90.99",
+  "standard_3d2y_renewal": "$113.98",
+  "standard_3d2y_renewal_disclaimer": "$56.99",
+  "standard_5d2y": "$104.99",
+  "standard_5d2y_renewal": "$131.98",
+  "standard_5d2y_renewal_disclaimer": "$65.99"
+}

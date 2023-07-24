@@ -1,25 +1,88 @@
 import time
-
 import allure
 from selenium.common import TimeoutException
-
-from locators.kaspersky_standard_page_locators import StandardPageBuyBlockLocators, \
-    StandardPageDialogWindows
+from selenium.webdriver.common.by import By
 from pages.kaspersky_base_page import BasePage
 
 
+STANDARD_SPECIAL_OFFER_MODAL = By.XPATH, '//div[@data-at-selector="modal-content"]'
+STANDARD_SPECIAL_OFFER_MODAL_CLOSE_BUTTON = By.XPATH, \
+    '//div[contains(@class, "Modal")]//button[contains(@class, "AccesibilityButton")]'
+
+STANDARD_BUY_BLOCK_SELECTION = By.XPATH, \
+    '(//div[contains(@class, "Value") and @data-at-selector="select-value"])[2]'
+STANDARD_BUY_BLOCK_LISTBOX = By.XPATH, '//div[contains(@class, "CustomScroll")]'
+STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[1]'
+STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[2]'
+STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[3]'
+STANDARD_BUY_BLOCK_CONTENT_1D2Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[4]'
+STANDARD_BUY_BLOCK_CONTENT_3D2Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[5]'
+STANDARD_BUY_BLOCK_CONTENT_5D2Y_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[6]'
+STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-device-count="1" and @data-at-device-period="1"]//span[@data-hidden])[2]'
+STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT = By.XPATH, '(//div[@data-at-selector="current-price-container" and \
+    @data-at-device-count="1" and @data-at-device-period="1"]//span[@data-hidden])[1]'
+STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE = By.XPATH, \
+    '(//div[contains(@class, "BuyBlock_disclaimer")]/span[2])[1]'
+
+STANDARD_DROPDOWN_LIST_SELECTION = By.XPATH, \
+    '(//div[@data-at-product-id="standard"]//*[name()="svg"])[3]'
+STANDARD_1D1Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '//*[contains(text(), "1 Device")]'
+STANDARD_3D1Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '//*[contains(text(), "3 Device")]'
+STANDARD_5D1Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '//*[contains(text(), "5 Device")]'
+STANDARD_1D2Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '//*[contains(text(), "1 Device" and "2 Years")]'
+STANDARD_3D2Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[5]'
+STANDARD_5D2Y_OPEN_BUY_BLOCK_DROPDOWN_LIST = By.XPATH, '(//div[contains(@class, "Option")])[6]'
+STANDARD_1D1Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="1" and \
+    @data-at-device-period="1"]//span[@data-hidden])[2]'
+STANDARD_1D1Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="1" and \
+    @data-at-device-period="1"]//span[@data-hidden])[1]'
+STANDARD_3D1Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="3" and \
+    @data-at-device-period="1"]//span[@data-hidden])[2]'
+STANDARD_3D1Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="3" and \
+    @data-at-device-period="1"]//span[@data-hidden])[1]'
+STANDARD_5D1Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="5" and \
+    @data-at-device-period="1"]//span[@data-hidden])[2]'
+STANDARD_5D1Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="5" and \
+    @data-at-device-period="1"]//span[@data-hidden])[1]'
+STANDARD_1D2Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="1" and \
+    @data-at-device-period="2"]//span[@data-hidden])[2]'
+STANDARD_1D2Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="1" and \
+    @data-at-device-period="2"]//span[@data-hidden])[1]'
+STANDARD_3D2Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="3" and \
+    @data-at-device-period="2"]//span[@data-hidden])[2]'
+STANDARD_3D2Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="3" and \
+    @data-at-device-period="2"]//span[@data-hidden])[1]'
+STANDARD_5D_2Y_OPEN_BUY_BLOCK_PRICE_WITH_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="5" and \
+    @data-at-device-period="2"]//span[@data-hidden])[2]'
+STANDARD_5D2Y_OPEN_BUY_BLOCK_PRICE_WITHOUT_DISCOUNT = By.XPATH, \
+    '(//div[@data-at-selector="buy-block" and @data-at-product-id="standard" and @data-at-device-count="5" and \
+    @data-at-device-period="2"]//span[@data-hidden])[1]'
+STANDARD_DISCLAIMER_OPEN_BUY_BLOCK_RENEWAL_PRICE = By.XPATH, '(//div[contains(@class, "BuyBlock_disclaimer")] \
+    /span[2])[2]'
+
+
 class StandardPageBuyBlock(BasePage):
-    locators = StandardPageBuyBlockLocators()
-    locators2 = StandardPageDialogWindows()
 
     #1 DEVICE - 1 YEAR
     @allure.step('Find price for Kaspersky Standard on Buy Block for 1 device 1 year with discount')
     def find_kaspersky_standard_buy_block_1d1y_with_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_clickable(self.locators.STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
-        modal_window = self.element_is_not_visible(self.locators2.STANDARD_SPECIAL_OFFER_MODAL)
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_clickable(STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
+        modal_window = self.element_is_not_visible(STANDARD_SPECIAL_OFFER_MODAL)
         standard_buy_block_1d1y_discount_price = \
-            self.element_is_present(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).get_attribute("innerHTML")
+            self.element_is_present(STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).get_attribute("innerHTML")
         try:
             modal_window
         except TimeoutException:
@@ -28,76 +91,77 @@ class StandardPageBuyBlock(BasePage):
 
     @allure.step('Find price for Kaspersky Standard on Buy Block for 1 device 1 year without discount')
     def find_kaspersky_standard_buy_block_1d1y_without_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_clickable(self. locators.STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_clickable(STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
         standard_buy_block_1d1y_initial_price = \
-            self.element_is_present(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).get_attribute("innerHTML")
+            self.element_is_present(STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).get_attribute("innerHTML")
         return standard_buy_block_1d1y_initial_price
 
     @allure.step('Find renewal price for Kaspersky Standard on Buy Block for 1 device 1 year in disclaimer')
     def find_kaspersky_standard_buy_block_1d1y_renewal_disclaimer(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_clickable(self.locators.STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_clickable(STANDARD_BUY_BLOCK_CONTENT_1D1Y_DROPDOWN_LIST).click()
         standard_buy_block_1d1y_renewal_price = \
-            self.element_is_visible(self.locators.STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
+            self.element_is_visible(STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
         return standard_buy_block_1d1y_renewal_price
 
         # 3 DEVICE - 1 YEAR
     @allure.step('Find price for Kaspersky Standard on Buy Block for 3 device 1 year with discount')
     def find_kaspersky_standard_buy_block_3d1y_with_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        listbox = self.elements_are_visible(self.locators.STANDARD_BUY_BLOCK_LISTBOX)
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        listbox = self.elements_are_visible(STANDARD_BUY_BLOCK_LISTBOX)
+        data = []
         for item in listbox:
             self.action_move_to_element([2])
             self. element_is_visible(item)
             data.append(item.text)
         return data
 
-        #self.element_is_clickable(self.locators.STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
+        #self.element_is_clickable(STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
         #standard_buy_block_3d1y_discount_price = \
-        #    self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).get_attribute("innerHTML")
+        #    self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).get_attribute("innerHTML")
         #return standard_buy_block_3d1y_discount_price
 
     @allure.step('Find price for Kaspersky Standard on Buy Block for 3 device 1 year without discount')
     def find_kaspersky_standard_buy_block_3d1y_without_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
         standard_buy_block_3d1y_initial_price = \
-            self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).get_attribute("innerHTML")
+            self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).get_attribute("innerHTML")
         return standard_buy_block_3d1y_initial_price
 
     @allure.step('Find renewal price for Kaspersky Standard on Buy Block for 3 device 1 year in disclaimer')
     def find_kaspersky_standard_buy_block_3d1y_renewal_disclaimer(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_3D1Y_DROPDOWN_LIST).click()
         standard_buy_block_3d1y_renewal_price = \
-            self.element_is_visible(self.locators.STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
+            self.element_is_visible(STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
         return standard_buy_block_3d1y_renewal_price
 
 
     # 5 DEVICE - 1 YEAR
     @allure.step('Find price for Kaspersky Standard on Buy Block for 5 device 1 year with discount')
     def find_kaspersky_standard_buy_block_5d1y_with_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
         standard_buy_block_5d1y_discount_price = \
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).text
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_WITH_DISCOUNT).text
         return standard_buy_block_5d1y_discount_price
 
 
     @allure.step('Find price for Kaspersky Standard on Buy Block for 5 device 1 year without discount')
     def find_kaspersky_standard_buy_block_5d1y_without_discount(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
         standard_buy_block_5d1y_initial_price = \
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).text
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_WITHOUT_DISCOUNT).text
         return standard_buy_block_5d1y_initial_price
 
 
     @allure.step('Find renewal price for Kaspersky Standard on Buy Block for 5 device 1 year in disclaimer')
     def find_kaspersky_standard_buy_block_5d1y_renewal_disclaimer(self):
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_SELECTION).click()
-        self.element_is_visible(self.locators.STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_SELECTION).click()
+        self.element_is_visible(STANDARD_BUY_BLOCK_CONTENT_5D1Y_DROPDOWN_LIST).click()
         standard_buy_block_5d1y_renewal_price = \
-        self.element_is_visible(self.locators.STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
+        self.element_is_visible(STANDARD_DISCLAIMER_BUY_BLOCK_RENEWAL_PRICE).text
         return standard_buy_block_5d1y_renewal_price
